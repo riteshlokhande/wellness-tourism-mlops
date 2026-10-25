@@ -30,15 +30,44 @@ jobs:
 
     - name: Establish MLflow Telemetry Tunnel
       env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
       run: |
+        # 1. Start local MLflow server in background
         nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
-        sleep 5
-        ngrok config add-authtoken $NGROK_AUTH_TOKEN
-        nohup ngrok http 5000 > ngrok.log 2>&1 &
-        sleep 5
         
-        PUBLIC_URL=$(curl -s http://localhost:4040/api/tunnels | python -c "import sys, json; print(json.load(sys.stdin)['tunnels'][0]['public_url'])")
+        # 2. Configure Ngrok auth token correctly
+        ngrok config add-authtoken $NGROK_AUTH_TOKEN
+        
+        # 3. Start Ngrok tunnel in background
+        nohup ngrok http 5000 > ngrok.log 2>&1 &
+        
+        # 4. Resilient polling loop to wait for Ngrok API to become available
+        echo "Waiting for Ngrok tunnel API to initialize..."
+        PUBLIC_URL=""
+        for i in {1..15}; do
+          response=$(curl -s http://localhost:4040/api/tunnels || true)
+          PUBLIC_URL=$(echo "$response" | python -c "
+import sys, json
+try:
+    data = json.load(sys.stdin)
+    tunnels = data.get('tunnels', [])
+    if tunnels:
+        print(tunnels[0]['public_url'])
+except Exception:
+    pass
+          ")
+          if [ -n "$PUBLIC_URL" ]; then
+            break
+          fi
+          sleep 2
+        done
+        
+        if [ -z "$PUBLIC_URL" ]; then
+          echo "❌ Failed to retrieve Ngrok public URL."
+          cat ngrok.log
+          exit 1
+        fi
+        
         echo "Ngrok Tunnel Established at: $PUBLIC_URL"
         echo "MLFLOW_TRACKING_URI=$PUBLIC_URL" >> $GITHUB_ENV
 
@@ -53,10 +82,6 @@ jobs:
     - name: Data Preprocessing
       run: |
         python -c "from data_preprocessing import get_preprocessor; print('✅ ColumnTransformer Preprocessing Pipeline verified successfully.')"
-
-    - name: Model Selection
-      run: |
-        echo "✅  Selected Candidate: XGBoost Classifier (XGBClassifier) with Scikit-Learn Pipeline integration."
 
     - name: Hyperparameter Tuning and Model Training
       run: |
