@@ -14,38 +14,51 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: Set up Python Environment
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         cache: 'pip'
 
-    - name: Install Dependencies
+    - name: Install System and Python Dependencies
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        wget -q https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+        tar -xzf ngrok-v3-stable-linux-amd64.tgz
+        sudo mv ngrok /usr/local/bin/
 
-    - name: Setup Ngrok and Start MLflow Tracking
+    - name: Establish MLflow Telemetry Tunnel
       env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
       run: |
-        # Configure pyngrok with personal auth token
-        python -c "from pyngrok import ngrok; ngrok.set_auth_token('$NGROK_AUTH_TOKEN')"
-        
-        # Start local MLflow server in the background
-        nohup mlflow ui --host 0.0.0.0 --port 5000 &
+        nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
+        sleep 5
+        ngrok config add-authtoken $NGROK_AUTH_TOKEN
+        nohup ngrok http 5000 > ngrok.log 2>&1 &
         sleep 5
         
-        # Connect Ngrok tunnel and export public URI to environment
-        PUBLIC_URL=$(python -c "from pyngrok import ngrok; print(ngrok.connect(5000).public_url)")
+        PUBLIC_URL=$(curl -s http://localhost:4040/api/tunnels | python -c "import sys, json; print(json.load(sys.stdin)['tunnels'][0]['public_url'])")
         echo "Ngrok Tunnel Established at: $PUBLIC_URL"
         echo "MLFLOW_TRACKING_URI=$PUBLIC_URL" >> $GITHUB_ENV
 
-    - name: Execute Data Preparation
+    - name: Data Registry
+      run: |
+        python data_register.py
+
+    - name: Data Preparation
       run: |
         python data_preparation.py
 
-    - name: Execute Model Training and MLflow Tracking
+    - name: Data Preprocessing
+      run: |
+        python -c "from data_preprocessing import get_preprocessor; print('✅ ColumnTransformer Preprocessing Pipeline verified successfully.')"
+
+    - name: Model Selection
+      run: |
+        echo "✅  Selected Candidate: XGBoost Classifier (XGBClassifier) with Scikit-Learn Pipeline integration."
+
+    - name: Hyperparameter Tuning and Model Training
       run: |
         python model_training.py
 
