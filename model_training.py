@@ -1,5 +1,6 @@
 import sys
 import os
+import shutil
 
 # Ensure current working directory is in system path for robust module imports
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -19,45 +20,37 @@ from data_preprocessing import get_preprocessor
 def train_and_track_model():
     print("--- Initiating Model Training & Tracking Lifecycle ---")
     
-    # 1. Configure local SQLite tracking URI
+    # 1. Purge stale SQLite databases or mlruns caching absolute /content paths from Colab
+    if os.path.exists("mlflow.db"):
+        os.remove("mlflow.db")
+        print("🗑️ Cleared stale mlflow.db cache.")
+    if os.path.exists("mlruns"):
+        shutil.rmtree("mlruns")
+        print("🗑️ Cleared stale mlruns directory.")
+
+    # 2. Configure local SQLite tracking URI
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
-    
-    # Define absolute local path for artifacts to prevent /content fallback
-    abs_mlruns_path = os.path.abspath("./mlruns")
-    os.makedirs(abs_mlruns_path, exist_ok=True)
-    artifact_uri_str = f"file://{abs_mlruns_path}"
-    
-    experiment_name = "Wellness_Tourism_Package_Prediction"
-    try:
-        experiment_id = mlflow.create_experiment(experiment_name, artifact_location=artifact_uri_str)
-    except Exception:
-        experiment = mlflow.get_experiment_by_name(experiment_name)
-        experiment_id = experiment.experiment_id if experiment else None
+    mlflow.set_experiment("Wellness_Tourism_Package_Prediction")
 
-    if experiment_id:
-        mlflow.set_experiment(experiment_id=experiment_id)
-    else:
-        mlflow.set_experiment(experiment_name)
-
-    # 2. Load Data Partitions
+    # 3. Load Data Partitions
     X_train = pd.read_csv('artifacts/X_train.csv')
     y_train = pd.read_csv('artifacts/y_train.csv').values.ravel()
     X_test = pd.read_csv('artifacts/X_test.csv')
     y_test = pd.read_csv('artifacts/y_test.csv').values.ravel()
 
-    # 3. Assemble Composite Pipeline
+    # 4. Assemble Composite Pipeline
     preprocessor = get_preprocessor()
     xgb_estimator = XGBClassifier(eval_metric='logloss', random_state=42)
     pipeline = Pipeline(steps=[('preprocessor', preprocessor), ('classifier', xgb_estimator)])
 
-    # 4. Hyperparameter Grid Configuration
+    # 5. Hyperparameter Grid Configuration
     param_grid = {
         'classifier__n_estimators': [50, 100],
         'classifier__max_depth': [3, 5],
         'classifier__learning_rate': [0.05, 0.1]
     }
 
-    # 5. MLflow Experiment Tracking & Training
+    # 6. MLflow Experiment Tracking & Training
     with mlflow.start_run():
         print("Executing GridSearchCV Hyperparameter Tuning...")
         grid_search = GridSearchCV(pipeline, param_grid, cv=3, scoring='roc_auc', n_jobs=-1)
@@ -65,7 +58,7 @@ def train_and_track_model():
 
         best_model = grid_search.best_estimator_
         
-        # 6. Evaluation Metrics Calculation
+        # 7. Evaluation Metrics Calculation
         y_pred = best_model.predict(X_test)
         y_proba = best_model.predict_proba(X_test)[:, 1]
 
@@ -82,7 +75,7 @@ def train_and_track_model():
         mlflow.log_metrics(metrics)
         mlflow.sklearn.log_model(
             best_model, 
-            artifact_path="composite_pipeline", 
+            name="composite_pipeline", 
             serialization_format="cloudpickle"
         )
 
