@@ -66,32 +66,40 @@ jobs:
 
       - name: Establish MLflow Telemetry Tunnel & Train
         env:
-          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
         run: |
-          # Start MLflow and Ngrok telemetry
+          # 1. Start MLflow server in background
           nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
+          sleep 3
+          
+          # 2. Configure Ngrok auth token and start tunnel daemon
           ngrok config add-authtoken "$NGROK_AUTH_TOKEN"
           nohup ngrok http 5000 > ngrok.log 2>&1 &
           
-          # Poll Ngrok endpoint API
+          # 3. Resilient polling loop for Ngrok v3 endpoints API
+          echo "Waiting for Ngrok tunnel endpoint API to initialize..."
           PUBLIC_URL=""
-          for i in {1..15}; do
+          for i in {1..20}; do
             PUBLIC_URL=$(curl -s http://localhost:4040/api/endpoints | jq -r '.endpoints[0].public_url // empty' 2>/dev/null || true)
             if [ -n "$PUBLIC_URL" ] && [ "$PUBLIC_URL" != "null" ]; then
               break
             fi
-            sleep 2
+            sleep 3
           done
           
           if [ -z "$PUBLIC_URL" ] || [ "$PUBLIC_URL" == "null" ]; then
-            echo "❌ Failed to retrieve Ngrok public URL."
+            echo "❌ Failed to retrieve Ngrok public URL. Dumping ngrok.log and mlflow.log:"
+            echo "--- NGROK LOG ---"
+            cat ngrok.log
+            echo "--- MLFLOW LOG ---"
+            cat mlflow.log
             exit 1
           fi
           
           echo "MLFLOW_TRACKING_URI=$PUBLIC_URL" >> $GITHUB_ENV
-          echo "Telemetry Tunnel Established at: $PUBLIC_URL"
+          echo "✅ Telemetry Tunnel Established at: $PUBLIC_URL"
 
-          # Execute Model Training Pipeline
+          # 4. Execute Model Training Pipeline
           python model_training.py
 
       - name: Upload Trained Model Artifact
