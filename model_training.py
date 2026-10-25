@@ -21,9 +21,12 @@ from xgboost import XGBClassifier
 
 print("--- Initializing Host-Allowed Ngrok & MLflow Setup ---")
 
-# 1. Clean up existing background processes
+# 1. Clean up existing background processes and stale database files to prevent Alembic version mismatches
 os.system("pkill -f mlflow")
 os.system("pkill -f ngrok")
+if os.path.exists("mlflow.db"):
+    os.remove("mlflow.db")
+    print("🗑️ Removed stale 'mlflow.db' to ensure clean database migration.")
 time.sleep(2)
 
 # 2. Configure local SQLite telemetry persistence
