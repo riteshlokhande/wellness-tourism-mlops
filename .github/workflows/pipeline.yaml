@@ -60,6 +60,9 @@ jobs:
     name: 3. Model Training
     needs: data-prep
     runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: "1"
+      NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
