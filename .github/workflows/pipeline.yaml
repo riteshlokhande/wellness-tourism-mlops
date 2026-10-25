@@ -17,7 +17,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.14'
           cache: 'pip'
 
       - name: Install Deps
@@ -39,7 +39,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.14'
           cache: 'pip'
 
       - name: Install Deps
@@ -66,11 +66,13 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.14'
           cache: 'pip'
 
       - name: Install Deps
@@ -87,11 +89,19 @@ jobs:
       - name: Run Training & MLflow Tracking
         run: python model_training.py
 
+      - name: Commit and Push Updated Model Artifact
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add wellness_model.joblib
+          git commit -m "chore: retrain and sync model with python 3.14 environment" || echo "No changes to commit"
+          git push
+
       - name: Upload Model Artifact
         uses: actions/upload-artifact@v4
         with:
           name: wellness-model-artifact
-          path: model/wellness_model.joblib
+          path: wellness_model.joblib
 
   verify:
     name: 4. Verify & Quality Gate
@@ -102,8 +112,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: wellness-model-artifact
-          path: model/
-      
+          path: .
+
       - name: Quality Gate
         run: |
           echo "✅ Pipeline successfully completed!"
