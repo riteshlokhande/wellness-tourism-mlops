@@ -33,26 +33,34 @@ time.sleep(2)
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("Wellness_Tourism_Package_Prediction")
 
-# 3. Authenticate and Initialize Ngrok Tunnel Safely using Environment Secret Token
+# 3. Optional Ngrok Tunnel Initialization (Safely isolated so it never blocks training)
 try:
     from pyngrok import ngrok
     ngrok_token = os.getenv("NGROK_AUTH_TOKEN")
     if ngrok_token:
         ngrok.set_auth_token(ngrok_token)
         print("🔑 Ngrok authentication token successfully configured.")
-    else:
-        print("⚠️ No NGROK_AUTH_TOKEN found in environment variables. Tunnel may fail if unauthenticated.")
-        
+    
     public_url = ngrok.connect(5000).public_url
     print(f"✅ Ngrok Tunnel established. MLflow UI available at: {public_url}")
 except Exception as e:
-    print(f"⚠️ Pyngrok tunnel bypassed/skipped due to authentication/environment constraints: {e}")
-    print("ℹ️ Continuing with robust local SQLite tracking (sqlite:///mlflow.db).")
+    print(f"⚠️ Pyngrok tunnel skipped (expected in headless CI/CD environment): {e}")
 
 print("\n--- Loading and Preprocessing Dataset ---")
 
 # Robust multi-path dataset lookup for CI/CD runners
-data_path = 'data/tourism.csv'
+possible_paths = ['tourism.csv', 'data/tourism.csv', './data/tourism.csv', '../tourism.csv']
+data_path = None
+for path in possible_paths:
+    if os.path.exists(path):
+        data_path = path
+        break
+
+if data_path:
+    print(f"✅ Successfully located dataset at: '{data_path}'")
+    df = pd.read_csv(data_path)
+else:
+    raise FileNotFoundError("Dataset 'tourism.csv' not found in current directory or 'data/'. Please verify artifact download step in GitHub Actions.")
 
 target_col = 'ProdTaken'
 if target_col not in df.columns:
