@@ -1,6 +1,8 @@
 import sys
 import os
 import shutil
+import subprocess
+import time
 
 # Ensure current working directory is in system path for robust module imports
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -28,37 +30,67 @@ def train_and_track_model():
         shutil.rmtree("mlruns")
         print("🗑️ Cleared stale mlruns directory.")
 
-    # 2. Configure local SQLite tracking URI
-    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    # 2. Start MLflow Server locally
+    print("Starting local MLflow server...")
+    os.system("pkill -f mlflow")
+    mlflow_process = subprocess.Popen(
+        ["mlflow", "server", "--backend-store-uri", "sqlite:///mlflow.db", "--port", "5000", "--allowed-hosts", "*", "--cors-allowed-origins", "*"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+    time.sleep(3)
+
+    # 3. Attempt to establish Pyngrok Tunnel for live public URL
+    public_url = None
+    try:
+        from pyngrok import ngrok
+        auth_token = os.environ.get("NGROK_AUTH_TOKEN")
+        if auth_token:
+            ngrok.set_auth_token(auth_token)
+        
+        tunnel = ngrok.connect(5000)
+        public_url = tunnel.public_url
+        print(f"🚀 Live Ngrok MLflow UI Dashboard URL: {public_url}")
+    except Exception as e:
+        print(f"⚠️ Pyngrok tunnel could not be established in this environment: {e}")
+        print("ℹ️ Continuing with robust local SQLite tracking (`sqlite:///mlflow.db`).")
+
+    # Set MLflow tracking URI
+    if public_url:
+        mlflow.set_tracking_uri(public_url)
+    else:
+        mlflow.set_tracking_uri("sqlite:///mlflow.db")
+        
     mlflow.set_experiment("Wellness_Tourism_Package_Prediction")
 
-    # 3. Load Data Partitions
+    # 4. Load Data Partitions
     X_train = pd.read_csv('artifacts/X_train.csv')
     y_train = pd.read_csv('artifacts/y_train.csv').values.ravel()
     X_test = pd.read_csv('artifacts/X_test.csv')
     y_test = pd.read_csv('artifacts/y_test.csv').values.ravel()
 
-    # 4. Assemble Composite Pipeline
+    # 5. Assemble Composite Pipeline
     preprocessor = get_preprocessor()
     xgb_estimator = XGBClassifier(eval_metric='logloss', random_state=42)
     pipeline = Pipeline(steps=[('preprocessor', preprocessor), ('classifier', xgb_estimator)])
 
-    # 5. Hyperparameter Grid Configuration
+    # 6. Hyperparameter Grid Configuration
     param_grid = {
         'classifier__n_estimators': [50, 100],
         'classifier__max_depth': [3, 5],
         'classifier__learning_rate': [0.05, 0.1]
     }
 
-    # 6. MLflow Experiment Tracking & Training
-    with mlflow.start_run():
+    # 7. MLflow Experiment Tracking & Training
+    with mlflow.start_run() as run:
         print("Executing GridSearchCV Hyperparameter Tuning...")
         grid_search = GridSearchCV(pipeline, param_grid, cv=3, scoring='roc_auc', n_jobs=-1)
         grid_search.fit(X_train, y_train)
 
         best_model = grid_search.best_estimator_
+        best_params = grid_search.best_params_
         
-        # 7. Evaluation Metrics Calculation
+        # 8. Evaluation Metrics Calculation
         y_pred = best_model.predict(X_test)
         y_proba = best_model.predict_proba(X_test)[:, 1]
 
@@ -71,7 +103,7 @@ def train_and_track_model():
         }
 
         # Log parameters, metrics, and model artifact with cloudpickle
-        mlflow.log_params(grid_search.best_params_)
+        mlflow.log_params(best_params)
         mlflow.log_metrics(metrics)
         mlflow.sklearn.log_model(
             best_model, 
@@ -79,10 +111,15 @@ def train_and_track_model():
             serialization_format="cloudpickle"
         )
 
-        # Local Serialization fallback
-        os.makedirs('model', exist_ok=True)
-        joblib.dump(best_model, 'model/wellness_model.joblib')
-        print("✅ Training complete. Model serialized to 'model/wellness_model.joblib'")
-
-if __name__ == "__main__":
-    train_and_track_model()
+        # 9. Print Explicit Summary for Console & Logs
+        print("\n" + "="*50)
+        print("🎉 MODEL TRAINING & EVALUATION SUMMARY 🎉")
+        print("="*50)
+        print(f"MLflow Run ID: {run.info.run_id}")
+        if public_url:
+            print(f"Live MLflow UI URL: {public_url}")
+        print(f"Tracking Database: sqlite:///mlflow.db")
+        print(f"\nBest Hyperparameters:")
+        for k, v in best_params.items():
+            print(f"  - {k}: {v}")
+        print
