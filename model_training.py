@@ -36,7 +36,7 @@ if df is None:
     raise FileNotFoundError("tourism.csv not found in any standard path.")
 
 # 3. Target Variable Validation
-TARGET_COLUMN = "ProdTaken" # Update this if your column is named differently
+TARGET_COLUMN = "ProdTaken" 
 
 if TARGET_COLUMN not in df.columns:
     raise KeyError(f"Target column '{TARGET_COLUMN}' not found. Available columns in dataset are: {df.columns.tolist()}")
@@ -46,7 +46,9 @@ X = df.drop(columns=[TARGET_COLUMN])
 y = df[TARGET_COLUMN]
 
 numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
-categorical_features = X.select_dtypes(include=['object', 'category']).columns.tolist()
+
+# Added 'str' to suppress Pandas 2.2+ backward compatibility warnings
+categorical_features = X.select_dtypes(include=['object', 'category', 'str']).columns.tolist()
 
 numeric_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='median')),
@@ -66,7 +68,8 @@ preprocessor = ColumnTransformer(
 
 pipeline = Pipeline(steps=[
     ('preprocessor', preprocessor),
-    ('classifier', xgb.XGBClassifier(use_label_encoder=False, eval_metric='logloss'))
+    # Removed deprecated use_label_encoder=False argument
+    ('classifier', xgb.XGBClassifier(eval_metric='logloss'))
 ])
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -94,9 +97,15 @@ with mlflow.start_run():
     mlflow.log_metric("accuracy", accuracy)
     mlflow.log_metric("roc_auc", roc_auc)
     
-    mlflow.sklearn.log_model(best_model, "model")
+    # 7. Safe Model Serialization for Streamlit App and MLflow
+    # Whitelist custom external libraries to prevent skops UntrustedTypesFoundException
+    trusted_types = ["numpy.dtype", "xgboost.core.Booster", "xgboost.sklearn.XGBClassifier"]
+    mlflow.sklearn.log_model(
+        best_model, 
+        artifact_path="model", 
+        skops_trusted_types=trusted_types
+    )
     
-    # 7. Safe Model Serialization for Streamlit App
     os.makedirs("model", exist_ok=True)
     joblib.dump(best_model, "model/wellness_model.joblib")
     print("Model successfully serialized as model/wellness_model.joblib")
