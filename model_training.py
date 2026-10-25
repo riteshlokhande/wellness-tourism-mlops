@@ -19,7 +19,7 @@ mlflow.set_tracking_uri(f"sqlite:///{db_path}")
 mlflow.set_experiment("wellness_tourism_prediction")
 
 # 2. Robust Multi-Path Dataset Loading
-data_paths = ["data/wellness_dataset.csv", "../data/wellness_dataset.csv", "wellness_dataset.csv"]
+data_paths = ["data/tourism.csv", "../data/tourism.csv", "tourism.csv"]
 df = None
 for path in data_paths:
     if os.path.exists(path):
@@ -28,7 +28,7 @@ for path in data_paths:
         break
 
 if df is None:
-    raise FileNotFoundError("wellness_dataset.csv not found in any standard path.")
+    raise FileNotFoundError("tourism.csv not found in any standard path.")
 
 # 3. Data Preparation
 X = df.drop(columns=["Target_Package_Taken"])

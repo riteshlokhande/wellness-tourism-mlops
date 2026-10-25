@@ -93,7 +93,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add wellness_model.joblib
+          git add model/wellness_model.joblib
           git commit -m "chore: retrain and sync model with python 3.14 environment" || echo "No changes to commit"
           git push
 
@@ -101,7 +101,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: wellness-model-artifact
-          path: wellness_model.joblib
+          path: model/wellness_model.joblib
 
   verify:
     name: 4. Verify & Quality Gate
@@ -112,7 +112,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: wellness-model-artifact
-          path: .
+          path: model/
 
       - name: Quality Gate
         run: |
