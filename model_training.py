@@ -19,12 +19,26 @@ from data_preprocessing import get_preprocessor
 def train_and_track_model():
     print("--- Initiating Model Training & Tracking Lifecycle ---")
     
-    # 1. Configure local tracking and artifact URIs to avoid Colab /content permission errors
+    # 1. Configure local SQLite tracking URI
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
     
-    # Ensure local artifacts directory exists relative to repository
-    os.makedirs("./mlruns", exist_ok=True)
+    # Define absolute local path for artifacts to prevent /content fallback
+    abs_mlruns_path = os.path.abspath("./mlruns")
+    os.makedirs(abs_mlruns_path, exist_ok=True)
+    artifact_uri_str = f"file://{abs_mlruns_path}"
     
+    experiment_name = "Wellness_Tourism_Package_Prediction"
+    try:
+        experiment_id = mlflow.create_experiment(experiment_name, artifact_location=artifact_uri_str)
+    except Exception:
+        experiment = mlflow.get_experiment_by_name(experiment_name)
+        experiment_id = experiment.experiment_id if experiment else None
+
+    if experiment_id:
+        mlflow.set_experiment(experiment_id=experiment_id)
+    else:
+        mlflow.set_experiment(experiment_name)
+
     # 2. Load Data Partitions
     X_train = pd.read_csv('artifacts/X_train.csv')
     y_train = pd.read_csv('artifacts/y_train.csv').values.ravel()
@@ -43,8 +57,7 @@ def train_and_track_model():
         'classifier__learning_rate': [0.05, 0.1]
     }
 
-    # 5. MLflow Experiment Tracking
-    mlflow.set_experiment("Wellness_Tourism_Package_Prediction")
+    # 5. MLflow Experiment Tracking & Training
     with mlflow.start_run():
         print("Executing GridSearchCV Hyperparameter Tuning...")
         grid_search = GridSearchCV(pipeline, param_grid, cv=3, scoring='roc_auc', n_jobs=-1)
@@ -64,7 +77,7 @@ def train_and_track_model():
             "roc_auc": roc_auc_score(y_test, y_proba)
         }
 
-        # Log parameters, metrics, and model artifact safely to local relative workspace
+        # Log parameters, metrics, and model artifact with cloudpickle
         mlflow.log_params(grid_search.best_params_)
         mlflow.log_metrics(metrics)
         mlflow.sklearn.log_model(
@@ -73,7 +86,7 @@ def train_and_track_model():
             serialization_format="cloudpickle"
         )
 
-        # Local Serialization
+        # Local Serialization fallback
         os.makedirs('model', exist_ok=True)
         joblib.dump(best_model, 'model/wellness_model.joblib')
         print("✅ Training complete. Model serialized to 'model/wellness_model.joblib'")
