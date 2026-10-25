@@ -20,18 +20,18 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from data_preprocessing import get_preprocessor
 
 def train_and_track_model():
-    print("--- Initiating Model Training & Tracking Lifecycle ---")
+    print("--- Initiating Model Training & Tracking Lifecycle ---", flush=True)
     
     # 1. Purge stale SQLite databases or mlruns caching absolute /content paths from Colab
     if os.path.exists("mlflow.db"):
         os.remove("mlflow.db")
-        print("🗑️ Cleared stale mlflow.db cache.")
+        print("🗑️ Cleared stale mlflow.db cache.", flush=True)
     if os.path.exists("mlruns"):
         shutil.rmtree("mlruns")
-        print("🗑️ Cleared stale mlruns directory.")
+        print("🗑️ Cleared stale mlruns directory.", flush=True)
 
     # 2. Start MLflow Server locally
-    print("Starting local MLflow server...")
+    print("Starting local MLflow server...", flush=True)
     os.system("pkill -f mlflow")
     mlflow_process = subprocess.Popen(
         ["mlflow", "server", "--backend-store-uri", "sqlite:///mlflow.db", "--port", "5000", "--allowed-hosts", "*", "--cors-allowed-origins", "*"],
@@ -50,10 +50,10 @@ def train_and_track_model():
         
         tunnel = ngrok.connect(5000)
         public_url = tunnel.public_url
-        print(f"🚀 Live Ngrok MLflow UI Dashboard URL: {public_url}")
+        print(f"🚀 Live Ngrok MLflow UI Dashboard URL: {public_url}", flush=True)
     except Exception as e:
-        print(f"⚠️ Pyngrok tunnel could not be established in this environment: {e}")
-        print("ℹ️ Continuing with robust local SQLite tracking (`sqlite:///mlflow.db`).")
+        print(f"⚠️ Pyngrok tunnel could not be established in this environment: {e}", flush=True)
+        print("ℹ️ Continuing with robust local SQLite tracking (`sqlite:///mlflow.db`).", flush=True)
 
     # Set MLflow tracking URI
     if public_url:
@@ -83,7 +83,7 @@ def train_and_track_model():
 
     # 7. MLflow Experiment Tracking & Training
     with mlflow.start_run() as run:
-        print("Executing GridSearchCV Hyperparameter Tuning...")
+        print("Executing GridSearchCV Hyperparameter Tuning...", flush=True)
         grid_search = GridSearchCV(pipeline, param_grid, cv=3, scoring='roc_auc', n_jobs=-1)
         grid_search.fit(X_train, y_train)
 
@@ -112,14 +112,25 @@ def train_and_track_model():
         )
 
         # 9. Print Explicit Summary for Console & Logs
-        print("\n" + "="*50)
-        print("🎉 MODEL TRAINING & EVALUATION SUMMARY 🎉")
-        print("="*50)
-        print(f"MLflow Run ID: {run.info.run_id}")
+        print("\n" + "="*50, flush=True)
+        print("🎉 MODEL TRAINING & EVALUATION SUMMARY 🎉", flush=True)
+        print("="*50, flush=True)
+        print(f"MLflow Run ID: {run.info.run_id}", flush=True)
         if public_url:
-            print(f"Live MLflow UI URL: {public_url}")
-        print(f"Tracking Database: sqlite:///mlflow.db")
-        print(f"\nBest Hyperparameters:")
+            print(f"Live MLflow UI URL: {public_url}", flush=True)
+        print(f"Tracking Database: sqlite:///mlflow.db", flush=True)
+        print(f"\nBest Hyperparameters:", flush=True)
         for k, v in best_params.items():
-            print(f"  - {k}: {v}")
-        print
+            print(f"  - {k}: {v}", flush=True)
+        print(f"\nEvaluation Metrics:", flush=True)
+        for m_name, m_val in metrics.items():
+            print(f"  - {m_name.upper()}: {m_val:.4f}", flush=True)
+        print("="*50 + "\n", flush=True)
+
+        # Local Serialization fallback
+        os.makedirs('model', exist_ok=True)
+        joblib.dump(best_model, 'model/wellness_model.joblib')
+        print("✅ Training complete. Model serialized to 'model/wellness_model.joblib'", flush=True)
+
+if __name__ == "__main__":
+    train_and_track_model()
