@@ -76,18 +76,17 @@ jobs:
             token_len=${#NGROK_AUTH_TOKEN}
             echo "✅ SUCCESS: NGROK_AUTH_TOKEN is present in the runner environment."
             echo "🔐 Token Character Length: $token_len"
-            echo "🔐 Token Prefix Check: ${NGROK_AUTH_TOKEN:0:4}..."
           fi
 
       - name: Establish MLflow Telemetry Tunnel & Train
         env:
           NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
         run: |
-          # 1. Start MLflow server in background
-          nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
+          # 1. Start MLflow server with allowed hosts to prevent host header rejection
+          nohup mlflow server --host 0.0.0.0 --port 5000 --allowed-hosts "*" > mlflow.log 2>&1 &
           sleep 3
           
-          # 2. Configure Ngrok auth token explicitly
+          # 2. Configure Ngrok auth token and start tunnel daemon
           ngrok config add-authtoken "$NGROK_AUTH_TOKEN"
           nohup ngrok http 5000 > ngrok.log 2>&1 &
           
