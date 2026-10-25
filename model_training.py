@@ -51,10 +51,14 @@ def train_and_track_model():
             "roc_auc": roc_auc_score(y_test, y_proba)
         }
 
-        # Log parameters, metrics, and model artifact
+        # Log parameters, metrics, and model artifact using cloudpickle serialization format for XGBoost compatibility
         mlflow.log_params(grid_search.best_params_)
         mlflow.log_metrics(metrics)
-        mlflow.sklearn.log_model(best_model, "composite_pipeline")
+        mlflow.sklearn.log_model(
+            best_model, 
+            artifact_path="composite_pipeline", 
+            serialization_format="cloudpickle"
+        )
 
         # Local Serialization
         os.makedirs('model', exist_ok=True)
