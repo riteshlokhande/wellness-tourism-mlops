@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-DATA_PATH = "Tourism.csv"
+DATA_PATH = "data/tourism.csv"
 
 def register_data():
     """Loads and validates the raw wellness tourism dataset."""
