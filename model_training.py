@@ -19,25 +19,31 @@ from data_preprocessing import get_preprocessor
 def train_and_track_model():
     print("--- Initiating Model Training & Tracking Lifecycle ---")
     
-    # 1. Load Data Partitions
+    # 1. Configure local tracking and artifact URIs to avoid Colab /content permission errors
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    
+    # Ensure local artifacts directory exists relative to repository
+    os.makedirs("./mlruns", exist_ok=True)
+    
+    # 2. Load Data Partitions
     X_train = pd.read_csv('artifacts/X_train.csv')
     y_train = pd.read_csv('artifacts/y_train.csv').values.ravel()
     X_test = pd.read_csv('artifacts/X_test.csv')
     y_test = pd.read_csv('artifacts/y_test.csv').values.ravel()
 
-    # 2. Assemble Composite Pipeline
+    # 3. Assemble Composite Pipeline
     preprocessor = get_preprocessor()
     xgb_estimator = XGBClassifier(eval_metric='logloss', random_state=42)
     pipeline = Pipeline(steps=[('preprocessor', preprocessor), ('classifier', xgb_estimator)])
 
-    # 3. Hyperparameter Grid Configuration
+    # 4. Hyperparameter Grid Configuration
     param_grid = {
         'classifier__n_estimators': [50, 100],
         'classifier__max_depth': [3, 5],
         'classifier__learning_rate': [0.05, 0.1]
     }
 
-    # 4. MLflow Experiment Tracking
+    # 5. MLflow Experiment Tracking
     mlflow.set_experiment("Wellness_Tourism_Package_Prediction")
     with mlflow.start_run():
         print("Executing GridSearchCV Hyperparameter Tuning...")
@@ -46,7 +52,7 @@ def train_and_track_model():
 
         best_model = grid_search.best_estimator_
         
-        # 5. Evaluation Metrics Calculation
+        # 6. Evaluation Metrics Calculation
         y_pred = best_model.predict(X_test)
         y_proba = best_model.predict_proba(X_test)[:, 1]
 
@@ -58,7 +64,7 @@ def train_and_track_model():
             "roc_auc": roc_auc_score(y_test, y_proba)
         }
 
-        # Log parameters, metrics, and model artifact using cloudpickle serialization format
+        # Log parameters, metrics, and model artifact safely to local relative workspace
         mlflow.log_params(grid_search.best_params_)
         mlflow.log_metrics(metrics)
         mlflow.sklearn.log_model(
