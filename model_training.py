@@ -1,6 +1,13 @@
+import sys
+import os
+
+# Ensure current working directory is in system path for robust module imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.append(current_dir)
+
 import pandas as pd
 import joblib
-import os
 import mlflow
 import mlflow.sklearn
 from xgboost import XGBClassifier
@@ -51,7 +58,7 @@ def train_and_track_model():
             "roc_auc": roc_auc_score(y_test, y_proba)
         }
 
-        # Log parameters, metrics, and model artifact using cloudpickle serialization format for XGBoost compatibility
+        # Log parameters, metrics, and model artifact using cloudpickle serialization format
         mlflow.log_params(grid_search.best_params_)
         mlflow.log_metrics(metrics)
         mlflow.sklearn.log_model(
