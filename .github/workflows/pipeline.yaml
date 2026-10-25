@@ -66,13 +66,13 @@ jobs:
 
       - name: Establish MLflow Telemetry Tunnel & Train
         env:
-          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
         run: |
           # 1. Start MLflow server in background
           nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
           sleep 3
           
-          # 2. Configure Ngrok auth token and start tunnel daemon
+          # 2. Configure Ngrok auth token explicitly
           ngrok config add-authtoken "$NGROK_AUTH_TOKEN"
           nohup ngrok http 5000 > ngrok.log 2>&1 &
           
