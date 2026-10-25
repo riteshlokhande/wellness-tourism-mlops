@@ -1,4 +1,4 @@
-name: MLOps Multi-Job CI/CD Pipeline
+name: MLOps CI/CD Pipeline
 
 on:
   push:
@@ -7,87 +7,81 @@ on:
     branches: [ main ]
 
 jobs:
-  data-infrastructure:
-    name: 1. Data Registry & Preparation
+  data-prep:
+    name: 1. Data Prep
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Set up Python Environment
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install Deps
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Execute Data Registry & Preparation
+      - name: Run Data Registry & Prep
         run: |
           python data_register.py
           python data_preparation.py
 
-      - name: Upload Data Artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: training-data-artifacts
           path: artifacts/
 
-  model-training:
-    name: 2. Hyperparameter Tuning & Model Training
-    needs: data-infrastructure
+  train:
+    name: 2. Model Training
+    needs: data-prep
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Set up Python Environment
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install Deps
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Download Data Artifacts from Prior Job
+      - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
           name: training-data-artifacts
           path: artifacts/
 
-      - name: Initialize Local MLflow Tracking & Execute Training
-        env:
-          MLFLOW_TRACKING_URI: sqlite:///mlflow.db
-        run: |
-          echo "✅ Initializing local MLflow tracking URI: $MLFLOW_TRACKING_URI"
-          
-          # Execute Model Training Pipeline locally with robust telemetry storage
-          python model_training.py
+      - name: Run Training & MLflow Tracking
+        run: python model_training.py
 
-      - name: Upload Trained Model Artifact
+      - name: Upload Model Artifact
         uses: actions/upload-artifact@v4
         with:
           name: wellness-model-artifact
           path: model/wellness_model.joblib
 
-  pipeline-verification:
-    name: 3. Pipeline Verification & Quality Gate
-    needs: model-training
+  verify:
+    name: 3. Verify & Quality Gate
+    needs: train
     runs-on: ubuntu-latest
     steps:
-      - name: Verify Artifact Availability
+      - name: Download Model
         uses: actions/download-artifact@v4
         with:
           name: wellness-model-artifact
           path: model/
       
-      - name: Quality Gate Status
+      - name: Quality Gate
         run: |
-          echo "✅ MLOps Pipeline successfully completed all dependent jobs!"
-          echo "✅ Model artifact verified and ready for deployment."
+          echo "✅ Pipeline successfully completed!"
+          echo "✅ Model artifact verified."
