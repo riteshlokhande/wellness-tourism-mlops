@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# Grants the github-actions[bot] permission to push commits
+permissions:
+  contents: write
+
 jobs:
   data-registry:
     name: 1. Data Registry
