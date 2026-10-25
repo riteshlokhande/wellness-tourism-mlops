@@ -64,9 +64,24 @@ jobs:
           name: training-data-artifacts
           path: artifacts/
 
+      - name: Debug and Verify Secret Availability
+        env:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        run: |
+          echo "--- DEBUG: Checking NGROK_AUTH_TOKEN Availability ---"
+          if [ -z "$NGROK_AUTH_TOKEN" ]; then
+            echo "❌ CRITICAL: NGROK_AUTH_TOKEN secret is EMPTY or NOT FOUND in repository secrets!"
+            exit 1
+          else
+            token_len=${#NGROK_AUTH_TOKEN}
+            echo "✅ SUCCESS: NGROK_AUTH_TOKEN is present in the runner environment."
+            echo "🔐 Token Character Length: $token_len"
+            echo "🔐 Token Prefix Check: ${NGROK_AUTH_TOKEN:0:4}..."
+          fi
+
       - name: Establish MLflow Telemetry Tunnel & Train
         env:
-          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
         run: |
           # 1. Start MLflow server in background
           nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
