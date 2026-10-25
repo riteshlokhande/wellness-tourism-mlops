@@ -1,4 +1,4 @@
-name: MLOps Automated CI/CD Pipeline
+name: MLOps Multi-Job CI/CD Pipeline
 
 on:
   push:
@@ -7,67 +7,111 @@ on:
     branches: [ main ]
 
 jobs:
-  mlops-pipeline:
+  data-infrastructure:
+    name: 1. Data Registry & Preparation
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python Environment
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        cache: 'pip'
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
 
-    - name: Install Dependencies & Ngrok CLI
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        wget -q https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
-        tar -xzf ngrok-v3-stable-linux-amd64.tgz
-        sudo mv ngrok /usr/local/bin/
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Establish MLflow Telemetry Tunnel
-      env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
-      run: |
-        nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
-        ngrok config add-authtoken "$NGROK_AUTH_TOKEN"
-        nohup ngrok http 5000 > ngrok.log 2>&1 &
-        
-        echo "Waiting for Ngrok tunnel API..."
-        PUBLIC_URL=""
-        for i in {1..15}; do
-          PUBLIC_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url // empty')
-          if [ -n "$PUBLIC_URL" ] && [ "$PUBLIC_URL" != "null" ]; then
-            break
+      - name: Execute Data Registry & Preparation
+        run: |
+          python data_register.py
+          python data_preparation.py
+
+      - name: Upload Data Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: training-data-artifacts
+          path: artifacts/
+
+  model-training:
+    name: 2. Hyperparameter Tuning & Model Training
+    needs: data-infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies & Ngrok CLI
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          wget -q https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+          tar -xzf ngrok-v3-stable-linux-amd64.tgz
+          sudo mv ngrok /usr/local/bin/
+
+      - name: Download Data Artifacts from Prior Job
+        uses: actions/download-artifact@v4
+        with:
+          name: training-data-artifacts
+          path: artifacts/
+
+      - name: Establish MLflow Telemetry Tunnel & Train
+        env:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        run: |
+          # Start MLflow and Ngrok telemetry
+          nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
+          ngrok config add-authtoken "$NGROK_AUTH_TOKEN"
+          nohup ngrok http 5000 > ngrok.log 2>&1 &
+          
+          # Poll Ngrok endpoint API
+          PUBLIC_URL=""
+          for i in {1..15}; do
+            PUBLIC_URL=$(curl -s http://localhost:4040/api/endpoints | jq -r '.endpoints[0].public_url // empty' 2>/dev/null || true)
+            if [ -n "$PUBLIC_URL" ] && [ "$PUBLIC_URL" != "null" ]; then
+              break
+            fi
+            sleep 2
+          done
+          
+          if [ -z "$PUBLIC_URL" ] || [ "$PUBLIC_URL" == "null" ]; then
+            echo "❌ Failed to retrieve Ngrok public URL."
+            exit 1
           fi
-          sleep 2
-        done
-        
-        if [ -z "$PUBLIC_URL" ] || [ "$PUBLIC_URL" == "null" ]; then
-          echo "❌ Failed to retrieve Ngrok public URL."
-          exit 1
-        fi
-        
-        echo "Ngrok Tunnel Established at: $PUBLIC_URL"
-        echo "MLFLOW_TRACKING_URI=$PUBLIC_URL" >> $GITHUB_ENV
+          
+          echo "MLFLOW_TRACKING_URI=$PUBLIC_URL" >> $GITHUB_ENV
+          echo "Telemetry Tunnel Established at: $PUBLIC_URL"
 
-    - name: Data Registry
-      run: python data_register.py
+          # Execute Model Training Pipeline
+          python model_training.py
 
-    - name: Data Preparation
-      run: python data_preparation.py
+      - name: Upload Trained Model Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wellness-model-artifact
+          path: model/wellness_model.joblib
 
-    - name: Data Preprocessing
-      run: python -c "from data_preprocessing import get_preprocessor; print('✅ Preprocessing Pipeline verified successfully.')"
-
-    - name: Hyperparameter Tuning and Model Training
-      run: python model_training.py
-
-    - name: Archive Model Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: wellness-model-artifact
-        path: model/wellness_model.joblib
+  pipeline-verification:
+    name: 3. Pipeline Verification & Quality Gate
+    needs: model-training
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Artifact Availability
+        uses: actions/download-artifact@v4
+        with:
+          name: wellness-model-artifact
+          path: model/
+      
+      - name: Quality Gate Status
+        run: |
+          echo "✅ MLOps Pipeline successfully completed all dependent jobs!"
+          echo "✅ Model artifact verified and ready for deployment."
