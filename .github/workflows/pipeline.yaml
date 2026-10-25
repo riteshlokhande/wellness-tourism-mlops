@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  data-prep:
-    name: 1. Data Prep
+  data-registry:
+    name: 1. Data Registry
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -25,10 +25,30 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Data Registry & Prep
+      - name: Run Data Registry
+        run: python data_register.py
+
+  data-prep:
+    name: 2. Data Prep
+    needs: data-registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Deps
         run: |
-          python data_register.py
-          python data_preparation.py
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Data Preparation
+        run: python data_preparation.py
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -37,7 +57,7 @@ jobs:
           path: artifacts/
 
   train:
-    name: 2. Model Training
+    name: 3. Model Training
     needs: data-prep
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +91,7 @@ jobs:
           path: model/wellness_model.joblib
 
   verify:
-    name: 3. Verify & Quality Gate
+    name: 4. Verify & Quality Gate
     needs: train
     runs-on: ubuntu-latest
     steps:
