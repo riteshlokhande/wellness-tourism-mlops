@@ -1,0 +1,6 @@
+drive/
+sample_data/
+.config/
+*.gsheet
+*.gdoc
+__pycache__/

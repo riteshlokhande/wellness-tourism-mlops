@@ -1,0 +1,56 @@
+name: MLOps Automated CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  mlops-pipeline:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Setup Ngrok and Start MLflow Tracking
+      env:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+      run: |
+        # Configure pyngrok with personal auth token
+        python -c "from pyngrok import ngrok; ngrok.set_auth_token('$NGROK_AUTH_TOKEN')"
+        
+        # Start local MLflow server in the background
+        nohup mlflow ui --host 0.0.0.0 --port 5000 &
+        sleep 5
+        
+        # Connect Ngrok tunnel and export public URI to environment
+        PUBLIC_URL=$(python -c "from pyngrok import ngrok; print(ngrok.connect(5000).public_url)")
+        echo "Ngrok Tunnel Established at: $PUBLIC_URL"
+        echo "MLFLOW_TRACKING_URI=$PUBLIC_URL" >> $GITHUB_ENV
+
+    - name: Execute Data Preparation
+      run: |
+        python data_preparation.py
+
+    - name: Execute Model Training and MLflow Tracking
+      run: |
+        python model_training.py
+
+    - name: Archive Model Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wellness-model-artifact
+        path: model/wellness_model.joblib
