@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 import xgboost as xgb
 from sklearn.metrics import accuracy_score, roc_auc_score
 
-# 1. Purge stale SQLite tracking cache to prevent database locking/corruption
+# 1. Purge stale SQLite tracking cache
 db_path = "mlflow.db"
 if os.path.exists(db_path):
     os.remove(db_path)
@@ -18,8 +18,13 @@ if os.path.exists(db_path):
 mlflow.set_tracking_uri(f"sqlite:///{db_path}")
 mlflow.set_experiment("wellness_tourism_prediction")
 
-# 2. Robust Multi-Path Dataset Loading
-data_paths = ["data/tourism.csv", "../data/tourism.csv", "tourism.csv"]
+# 2. Multi-Path Dataset Loading
+data_paths = [
+    "artifacts/tourism.csv",
+    "data/tourism.csv", 
+    "../data/tourism.csv", 
+    "tourism.csv"
+]
 df = None
 for path in data_paths:
     if os.path.exists(path):
@@ -30,9 +35,15 @@ for path in data_paths:
 if df is None:
     raise FileNotFoundError("tourism.csv not found in any standard path.")
 
-# 3. Data Preparation
-X = df.drop(columns=["Target_Package_Taken"])
-y = df["Target_Package_Taken"]
+# 3. Target Variable Validation
+TARGET_COLUMN = "ProdTaken" # Update this if your column is named differently
+
+if TARGET_COLUMN not in df.columns:
+    raise KeyError(f"Target column '{TARGET_COLUMN}' not found. Available columns in dataset are: {df.columns.tolist()}")
+
+# 4. Data Preparation
+X = df.drop(columns=[TARGET_COLUMN])
+y = df[TARGET_COLUMN]
 
 numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
 categorical_features = X.select_dtypes(include=['object', 'category']).columns.tolist()
@@ -60,7 +71,7 @@ pipeline = Pipeline(steps=[
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 4. Hyperparameter Tuning & MLflow Tracking
+# 5. Hyperparameter Tuning & MLflow Tracking
 param_grid = {
     'classifier__n_estimators': [50, 100],
     'classifier__max_depth': [3, 5]
@@ -72,7 +83,7 @@ with mlflow.start_run():
     
     best_model = grid_search.best_estimator_
     
-    # 5. Automated Metric Logging
+    # 6. Automated Metric Logging
     y_pred = best_model.predict(X_test)
     y_pred_proba = best_model.predict_proba(X_test)[:, 1]
     
@@ -85,6 +96,7 @@ with mlflow.start_run():
     
     mlflow.sklearn.log_model(best_model, "model")
     
-    # 6. Safe Model Serialization for Streamlit App
-    joblib.dump(best_model, "wellness_model.joblib")
-    print("Model successfully serialized as wellness_model.joblib")
+    # 7. Safe Model Serialization for Streamlit App
+    os.makedirs("model", exist_ok=True)
+    joblib.dump(best_model, "model/wellness_model.joblib")
+    print("Model successfully serialized as model/wellness_model.joblib")
