@@ -1,0 +1,275 @@
+WARNING: Accepting ALL hosts. This may leave the server vulnerable to DNS rebinding attacks.
+WARNING: Allowing ALL origins for CORS. This allows ANY website to access your MLflow data. This configuration is only recommended for local development.
+Registry store URI not provided. Using backend store URI.
+[MLflow] Security middleware enabled. Allowed hosts: *. CORS origins: *.
+2026/10/25 16:25:11 INFO mlflow.server.jobs.executor_registry: Available backends after discovery: local
+2026/10/25 16:25:11 INFO mlflow.server.jobs.executor_registry: Job executor backend 'local' passed requirements check
+2026/10/25 16:25:11 INFO:     Uvicorn running on http://127.0.0.1:5001 (Press CTRL+C to quit)
+2026/10/25 16:25:11 INFO:     Started parent process [137610]
+2026/10/25 16:25:26 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:27 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:27 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:28 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+/usr/local/lib/python3.13/dist-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+2026/10/25 16:25:28 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+/usr/local/lib/python3.13/dist-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/usr/local/lib/python3.13/dist-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/usr/local/lib/python3.13/dist-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+2026/10/25 16:25:31 WARNING mlflow.server.fastapi_security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:31 INFO:     Started server process [137618]
+2026/10/25 16:25:31 INFO:     Waiting for application startup.
+2026/10/25 16:25:31 INFO:     Application startup complete.
+2026/10/25 16:25:32 WARNING mlflow.server.fastapi_security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:32 INFO:     Started server process [137617]
+2026/10/25 16:25:32 INFO:     Waiting for application startup.
+2026/10/25 16:25:32 INFO:     Application startup complete.
+2026/10/25 16:25:32 WARNING mlflow.server.fastapi_security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:32 INFO:     Started server process [137619]
+2026/10/25 16:25:32 INFO:     Waiting for application startup.
+2026/10/25 16:25:32 INFO:     Application startup complete.
+2026/10/25 16:25:33 WARNING mlflow.server.fastapi_security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:33 INFO:     Started server process [137620]
+2026/10/25 16:25:33 INFO:     Waiting for application startup.
+2026/10/25 16:25:33 INFO:     Application startup complete.
+2026/10/25 16:25:38 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET / HTTP/1.1" 200 OK
+2026/10/25 16:25:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/TelemetryLogger.telemetry-worker.d0f8ea2c83c08b63528f.worker.js HTTP/1.1" 200 OK
+2026/10/25 16:25:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/25 16:25:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/25 16:25:41 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/25 16:25:41 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/25 16:25:41 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/css/5027.26533251.chunk.css HTTP/1.1" 200 OK
+2026/10/25 16:25:41 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/25 16:25:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/experiments/search?max_results=5&order_by=last_update_time+DESC HTTP/1.1" 200 OK
+2026/10/25 16:25:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/3448.da9a79ba.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/css/5439.24118451.chunk.css HTTP/1.1" 200 OK
+2026/10/25 16:25:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:25:48 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:25:48 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/9848.664e1dcc.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:48 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/1416.113691cc.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:48 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/9538.46130387.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/306.59e72e30.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/6895.ff8c3bc6.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/7406.6ad65c50.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:50 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:50 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:25:54 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:55 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:55 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:55 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/4863.c17ad67f.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:55 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:55 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/4751.94bc6db7.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:55 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/6598.34cc2975.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:55 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/5702.205ea7af.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:55 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/css/6598.a73f718d.chunk.css HTTP/1.1" 200 OK
+2026/10/25 16:25:55 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/7349.715264bd.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:25:55 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:56 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:56 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:25:57 WARNING mlflow.server.security: MLFLOW_SERVER_CORS_ALLOWED_ORIGINS=* is set; disabling credentialed CORS. Wildcard origins with credentials is a CORS spec violation. Set an explicit origin allowlist to enable credentialed cross-origin requests.
+2026/10/25 16:25:59 INFO mlflow.server.jobs.utils: Registered online_scoring_scheduler periodic task (runs every 1 minute)
+2026/10/25 16:25:59 INFO mlflow.server.jobs.utils: Registered trace_archival_scheduler periodic task (polls every 1 minute and no-ops when trace archival is disabled or unconfigured)
+2026/10/25 16:25:59 INFO mlflow.server.jobs.utils: SQL trace rollup scheduler was not registered because rollups are disabled
+2026/10/25 16:26:07 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/scorers/list?experiment_id=1 HTTP/1.1" 200 OK
+2026/10/25 16:26:07 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:07 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:07 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:07 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:08 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:26:09 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/25 16:26:12 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:12 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:13 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:14 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:14 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:14 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:18 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/experiments/search?max_results=25&order_by=last_update_time+DESC&filter=tags.%60mlflow.experiment.isGateway%60+IS+NULL HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:21 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:23 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/media/eval-runs-empty.5b96bbb9a4c5dc6b413000491892bb6f.svg HTTP/1.1" 200 OK
+2026/10/25 16:26:24 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:26:27 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/experiments/search?max_results=25&order_by=last_update_time+DESC&filter=tags.%60mlflow.experiment.isGateway%60+IS+NULL HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:30 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:34 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/7650.7ffd34cb.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:26:35 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/gateway/endpoints/list HTTP/1.1" 200 OK
+2026/10/25 16:26:35 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/registered-models/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27 HTTP/1.1" 200 OK
+2026/10/25 16:26:35 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/gateway/endpoints/list HTTP/1.1" 200 OK
+2026/10/25 16:26:35 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/gateway/secrets/list HTTP/1.1" 200 OK
+2026/10/25 16:26:37 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:26:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/25 16:26:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:26:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET / HTTP/1.1" 304 Not Modified
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/css/2685.f073c5c3.chunk.css HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/7720.1cbd9501.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/2685.2f8f1b38.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/css/2684.13093132.chunk.css HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:26:42 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=run_id%3D%27dd3814e893734d58af407536ec273229%27 HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/scorers/list?experiment_id=1 HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:26:44 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:26:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25dd3814e893734d58af407536ec273229%25%22 HTTP/1.1" 200 OK
+2026/10/25 16:26:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:26:51 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:51 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:26:51 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:51 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/artifacts/list?run_uuid=dd3814e893734d58af407536ec273229 HTTP/1.1" 200 OK
+2026/10/25 16:26:59 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:59 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:59 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:26:59 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:26:59 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET / HTTP/1.1" 304 Not Modified
+2026/10/25 16:26:59 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/25 16:27:00 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:00 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:00 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/25 16:27:00 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/25 16:27:00 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/25 16:27:00 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=run_id%3D%27a121dca6f8cc464986bc83525eec02aa%27 HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/scorers/list?experiment_id=1 HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:01 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:27:05 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25a121dca6f8cc464986bc83525eec02aa%25%22 HTTP/1.1" 200 OK
+2026/10/25 16:27:05 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:13 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/25 16:27:24 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:24 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:24 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:24 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:25 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET / HTTP/1.1" 304 Not Modified
+2026/10/25 16:27:25 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/25 16:27:25 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:25 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=run_id%3D%27f793b051301e478aa2e2a67edcecddd6%27 HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/scorers/list?experiment_id=1 HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:26 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:27 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:27:27 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:29 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25f793b051301e478aa2e2a67edcecddd6%25%22 HTTP/1.1" 200 OK
+2026/10/25 16:27:29 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:32 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:32 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:27:32 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:33 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/artifacts/list?run_uuid=f793b051301e478aa2e2a67edcecddd6 HTTP/1.1" 200 OK
+2026/10/25 16:27:38 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:38 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:38 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:38 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:38 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET / HTTP/1.1" 304 Not Modified
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/25 16:27:39 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=run_id%3D%27b418e015604e4d1fb428ef2de28435fd%27 HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/scorers/list?experiment_id=1 HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:27:40 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:45 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:45 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:45 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET / HTTP/1.1" 304 Not Modified
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=run_id%3D%27e98c9f73765d439c8c5d9637ebf47e98%27 HTTP/1.1" 200 OK
+2026/10/25 16:27:46 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:27:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/3.0/mlflow/scorers/list?experiment_id=1 HTTP/1.1" 200 OK
+2026/10/25 16:27:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/search HTTP/1.1" 200 OK
+2026/10/25 16:27:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:27:47 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:48 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25e98c9f73765d439c8c5d9637ebf47e98%25%22 HTTP/1.1" 200 OK
+2026/10/25 16:27:48 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:27:51 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:51 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/datasets/search HTTP/1.1" 200 OK
+2026/10/25 16:27:51 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/traces/metrics HTTP/1.1" 200 OK
+2026/10/25 16:27:52 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/artifacts/list?run_uuid=e98c9f73765d439c8c5d9637ebf47e98 HTTP/1.1" 200 OK
+2026/10/25 16:27:56 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/8503.9d34794c.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/6475.82f59d0e.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/css/5343.b4cc2aa3.chunk.css HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/3878.0467b2c4.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/5343.bbb1f624.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/experiments/search-datasets HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /static-files/static/js/1372.38a0e73a.chunk.js HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/gateway-proxy?gateway_path=api%2F2.0%2Fendpoints%2F HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/logged-models/search HTTP/1.1" 200 OK
+2026/10/25 16:27:57 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:28:04 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=run_id%3D%27a7b9df28de4b431e90a65083e2428edc%27 HTTP/1.1" 200 OK
+2026/10/25 16:28:04 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /graphql HTTP/1.1" 200 OK
+2026/10/25 16:28:04 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25a7b9df28de4b431e90a65083e2428edc%25%22 HTTP/1.1" 200 OK
+2026/10/25 16:28:04 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/25 16:28:04 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/2.0/mlflow/logged-models/search HTTP/1.1" 200 OK
+2026/10/25 16:28:09 INFO:     2a02:26f7:d6c0:6869::e:0 - "POST /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/25 16:31:49 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25a7b9df28de4b431e90a65083e2428edc%25%22 HTTP/1.1" 200 OK
+2026/10/25 16:32:00 INFO:     2a02:26f7:d6c0:6869::e:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25a7b9df28de4b431e90a65083e2428edc%25%22 HTTP/1.1" 200 OK
+2026/10/25 16:40:24 INFO:     2a09:bac3:3c46:1aa0::2a7:ce:0 - "GET /ajax-api/2.0/mlflow/model-versions/search?filter=tags.%60mlflow.prompt.is_prompt%60+%3D+%27true%27+AND+tags.%60mlflow.prompt.run_ids%60+ILIKE+%22%25a7b9df28de4b431e90a65083e2428edc%25%22 HTTP/1.1" 200 OK
